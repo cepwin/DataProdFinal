@@ -23,10 +23,10 @@ shinyUI(fluidPage(
     actionButton("PlotDat","Plot the Data")
   ),
     mainPanel(
-      h3("Selected Value"),
+      h3("Linear Model Output"),
       verbatimTextOutput("text1"),
-      textOutput("text2"),
-      plotlyOutput("pPlot", height="800px")
+      h3("Exploratory Graph"),
+      plotlyOutput("pPlot", height="500px")
     )
   )
 ))

@@ -55,11 +55,21 @@ shinyServer(function(input, output,session) {
               yval<-input$colB
               zval<-input$colC
               cval<-input$colD
-              g<-plot_ly(newdata2, x= ~newdata2[[xval]], y = ~newdata2[[yval]], z = ~newdata2[[zval]],  color = ~newdata2[[cval]]) %>% 
+              tinydf<-cbind(newdata2[[xval]],newdata2[[yval]],newdata2[[zval]],newdata2[[cval]])
+              g<-plot_ly(newdata2, x= ~newdata2[[xval]], y = ~newdata2[[yval]], z = ~newdata2[[zval]],  
+                         marker = list(color = ~newdata2[[cval]],text=cval,showscale=TRUE))%>% 
                 add_markers() %>%
                 layout(scene = list(xaxis = list(title = xval),
                                     yaxis = list(title = yval),
-                                    zaxis = list(title = zval)))
+                                    zaxis = list(title = zval)),
+                       annotations = list(           
+                         x = 1.07,
+                         y = 1.03,
+                          text = cval,
+                         xref = 'paper',
+                         yref = 'paper',
+                         showarrow = FALSE
+                            ))
               shinyjs::showElement("pPlot")
               g
 
