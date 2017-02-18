@@ -19,12 +19,13 @@ shinyUI(fluidPage(
     selectInput("colB","Select data Column y: ",c()),
     selectInput("colC","Select data Column z: ",c()),
     selectInput("colD","Select data Column color: ",c()),
-  ##  submitButton("Select data"), 
+##    submitButton("Select data"), 
     actionButton("PlotDat","Plot the Data")
   ),
     mainPanel(
       h3("Selected Value"),
-      textOutput("text1"),
+      verbatimTextOutput("text1"),
+      textOutput("text2"),
       plotlyOutput("pPlot", height="800px")
     )
   )
