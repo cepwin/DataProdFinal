@@ -1,0 +1,19 @@
+---
+title: "Documentation for 'Explore the Dataset'"
+author: "Wendy Sarrett"
+date: "February 18, 2017"
+output: html_document
+runtime: shiny
+---
+
+##Description
+
+The purpose of this application is to allow one to perform some very basic analysis of the data sets provided.
+
+
+##Use
+
+To use the app do the following
+*Select one of the existing data set
+*Select the x, y and z axis as well as an additional column "color." The data points color will be based on the value of this column.
+*Click on "Plot the Data" and this will create a plotly plot (called "Exploratory Graph") based on the x, y, z and color values selected earlier.

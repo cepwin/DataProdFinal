@@ -10,7 +10,7 @@
 library(shiny)
 library(plotly)
 shinyUI(fluidPage(
-  titlePanel("Create Exploratory Plot of Data"),
+  titlePanel("Explore the Data Set"),
   sidebarLayout(
     sidebarPanel(
     selectInput("visData","Select Existing Data: ", 
