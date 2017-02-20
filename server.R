@@ -65,15 +65,27 @@ shinyServer(function(input, output,session) {
                       choices = choise)
     updateSelectInput(session, "colD",
                       choices = choise)
-    x<-lm(newdata[,1] ~., data = newdata)
+    ##Avoiding issue with y = factor variable
+    col<-0
+    for(i in 1:ncol(newdata)) {
+      if(!is.factor(newdata[,i]) && col == 0) {
+        col<-i
+      }
+        
+    }
+    if(col > 0) {
+    x<-summary(lm(newdata[,col] ~., data = newdata))
+    } else {
+      x<- "no non-factor columns .... lm is not valid"
+    }
      x
-    })
+   })
    ##End of reactive method
    
 
 
   output$text1 <- renderPrint({
-    summary(plotdata())
+    plotdata()
   })
   
   outtext <-eventReactive(input$PlotDat,

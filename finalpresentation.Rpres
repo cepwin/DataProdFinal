@@ -12,7 +12,7 @@ What is "Explore the Data Set"
 The purpose of <em>Explore the Data Set</em> is to allow one to see
 a basic analysis on the basic datasets included in rStudio that meet the
 following criteria:
-- The data set is a dataframe
+- The data set is a dataframe or a timeseries
 - The data set has at least 4 columns
 
 With these datasets you can quickly and easily see how the columns are related
@@ -78,9 +78,12 @@ Benefits of "Exploring the Data Set"
 The benefits of this application are the following:
 
 - Allows one to quickly get a sense of how the data is related by calculating a linear model
+- When a Dataset is selected a reactive method calculates the limear model and fills the column
+lists based of the data set selected
 - Allows one to quickly get a sense of what the data looks like by using a 3-d plot-ly plot
 
 Current Limitations
 
 -  Set number of columns for graph
 -  Only one type of graph
+
