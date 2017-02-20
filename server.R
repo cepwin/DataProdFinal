@@ -10,19 +10,36 @@ newdata<-data.frame()
  g<-plot_ly(mtcars, x= ~mpg, y = ~cyl, z = ~disp, type = "scatter3d", color = ~hp)
 
 shinyServer(function(input, output,session) {
-   dataLst <- list()
-   dataLst[["mtcars"]] <-mtcars
-   dataLst[["EuStockMarkets"]] <- EuStockMarkets
-   dataLst[["CO2"]] <- CO2
-   dataLst[["WWWusage"]] <- WWWusage
-   dataLst[["ChickWeight"]] <- ChickWeight
-   dataLst[["OrchardSprays"]] <-OrchardSprays
-   dataLst[["USPersonalExpenditure"]] <- USPersonalExpenditure
-   dataLst[["UCBAdmissions"]] <- UCBAdmissions 
-   dataLst[["airquality"]] <- airquality
-   dataLst[["UKgas"]] <- UKgas
-   
-   ##Reactive method
+  
+  #This method handles filling the list of datasets
+  #Only data of the type data.frame that have at least 4 columns are incorporated
+  getDataSets<-function() {
+    ds<-data(package="datasets")
+    res<-ds$results
+    dsNames<-res[,3]
+    choise<-c()
+    dataLst<-list()
+    for(i in 1:length(dsNames)) {
+      wd<-strsplit(dsNames[[i]]," ")[[1]]
+      dsNames[[i]]<-wd[1]
+      assign("xo", get(wd[1]))
+      isDF <-regexpr(class(xo),"data.frame")
+      if(any(isDF > 0)){
+        if(ncol(xo) >= 4) {
+          choise<-c(choise,wd[1])
+          dataLst[[wd[1]]]<-xo
+        }
+      }
+    }
+    updateSelectInput(session, "visData",
+                      choices = choise)
+    dataLst
+  }
+  
+  dataLst <- getDataSets()
+    
+   ##Reactive method takes selected dataset and calculates the lm 
+  ## which is then displayed.
    plotdata<- reactive({
      shinyjs::hideElement("pPlot")
      datasel <- input$visData
@@ -47,6 +64,7 @@ shinyServer(function(input, output,session) {
    ##End of reactive method
    
 
+
   output$text1 <- renderPrint({
     summary(plotdata())
   })
@@ -55,12 +73,7 @@ shinyServer(function(input, output,session) {
             { 
 
               datasel2 <- input$visData
-              data2<-dataLst[[datasel2]]
-              if(class(data2) == "data.frame") {
-                newdata2<-data2
-              } else {
-                newdata2<-as.data.frame(data2)
-              }
+              newdata2<-dataLst[[datasel2]]
               xval<-input$colA
               yval<-input$colB
               zval<-input$colC
