@@ -1,0 +1,86 @@
+Explore the Data Set
+========================================================
+author: Wendy Sarrett 
+date:  February 20, 2017
+autosize: true
+transition: rotate
+transition-speed: slow
+font-family: 'Times New Roman'
+
+What is "Explore the Data Set"
+========================================================
+The purpose of <em>Explore the Data Set</em> is to allow one to see
+a basic analysis on the basic datasets included in rStudio that meet the
+following criteria:
+- The data set is a dataframe
+- The data set has at least 4 columns
+
+With these datasets you can quickly and easily see how the columns are related
+and after selecting four columns (your x, y z and color) you can see a plot_ly 
+graph that allows you to visualize the relationships
+
+
+How the List of data sets is obtained
+========================================================
+The trickiest thing about this app is getting the list of datasets:
+
+```{r, error=FALSE, warning=FALSE}
+  #Only data of the type data.frame or >= 4 columns
+  getDataSets<-function() {
+    ds<-data(package="datasets")
+    res<-ds$results
+    dsNames<-res[,3]
+    choise<-c()
+    dataLst<-list()
+    for(i in 1:length(dsNames)) {
+      wd<-strsplit(dsNames[[i]]," ")[[1]]
+      dsNames[[i]]<-wd[1]
+      assign("xo", get(wd[1]))
+      if("data.frame" %in% class(xo)){
+        if(ncol(xo) >= 4) {
+          choise<-c(choise,wd[1])
+          dataLst[[wd[1]]]<-xo
+        }
+      } else {
+        if("ts" %in% class(xo)){
+          xoDF <- as.data.frame(xo)
+          if(ncol(xoDF) >= 4) {
+            choise<-c(choise,wd[1])
+            dataLst[[wd[1]]]<-xoDF
+          }
+        }
+      }
+    }    
+    ## note: commented out ui element update for this demo
+    dataLst
+  }
+  
+```
+
+Executing the DataList method
+========================================================
+As seen the first dataset is returned:
+
+```{r, echo=TRUE, warning = FALSE}
+head(getDataSets()[[1]])
+```
+
+Another way of getting the same thing (the key to getting the column names)
+
+```{r, echo=TRUE, warning = FALSE}
+head(getDataSets()[["mtcars"]],3)
+```
+
+
+Benefits of "Exploring the Data Set"
+========================================================
+
+The benefits of this application are the following:
+
+- Allows one to quickly get a sense of how the data is related by calculating a linear model
+- Allows one to quickly get a sense of what the data looks like by using a 3-d plot-ly plot
+
+Current Limitations
+
+-  Set number of columns for graph
+-  Only one type of graph

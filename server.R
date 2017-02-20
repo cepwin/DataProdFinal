@@ -23,11 +23,18 @@ shinyServer(function(input, output,session) {
       wd<-strsplit(dsNames[[i]]," ")[[1]]
       dsNames[[i]]<-wd[1]
       assign("xo", get(wd[1]))
-      isDF <-regexpr(class(xo),"data.frame")
-      if(any(isDF > 0)){
+      if("data.frame" %in% class(xo)){
         if(ncol(xo) >= 4) {
           choise<-c(choise,wd[1])
           dataLst[[wd[1]]]<-xo
+        }
+      } else {
+        if("ts" %in% class(xo)){
+          xoDF <- as.data.frame(xo)
+          if(ncol(xoDF) >= 4) {
+            choise<-c(choise,wd[1])
+            dataLst[[wd[1]]]<-xoDF
+          }
         }
       }
     }
