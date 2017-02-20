@@ -13,7 +13,16 @@ shinyServer(function(input, output,session) {
    dataLst <- list()
    dataLst[["mtcars"]] <-mtcars
    dataLst[["EuStockMarkets"]] <- EuStockMarkets
+   dataLst[["CO2"]] <- CO2
+   dataLst[["WWWusage"]] <- WWWusage
+   dataLst[["ChickWeight"]] <- ChickWeight
+   dataLst[["OrchardSprays"]] <-OrchardSprays
+   dataLst[["USPersonalExpenditure"]] <- USPersonalExpenditure
+   dataLst[["UCBAdmissions"]] <- UCBAdmissions 
+   dataLst[["airquality"]] <- airquality
+   dataLst[["UKgas"]] <- UKgas
    
+   ##Reactive method
    plotdata<- reactive({
      shinyjs::hideElement("pPlot")
      datasel <- input$visData
@@ -35,6 +44,7 @@ shinyServer(function(input, output,session) {
     x<-lm(newdata[,1] ~., data = newdata)
      x
     })
+   ##End of reactive method
    
 
   output$text1 <- renderPrint({
