@@ -23,12 +23,26 @@ shinyUI(fluidPage(
     actionButton("PlotDat","Plot the Data")
   ),
     mainPanel(
-      h3("Linear Model Output"),
-      verbatimTextOutput("text1"),
-      h3("Exploratory Graph"),
-      plotlyOutput("pPlot", height="500px")
+      tabsetPanel(
+        tabPanel("Output",
+        h3("Linear Model Output"),
+        verbatimTextOutput("text1"),
+        h3("Exploratory Graph"),
+        plotlyOutput("pPlot", height="500px")
+        ),
+        tabPanel("Instructions",
+           h3("Description"),
+             p("The purpose of this application is to allow one to perform some very basic analysis of the data sets provided."),
+            h3("Use"),
+            p("To use the app do the following"),
+            tags$li("Select one of the existing data set"),
+           tags$li("Select the x, y and z axis as well as an additional column 'color.' The data points color will be based on the value of this column."),
+            tags$li("Click on 'Plot the Data' and this will create a plotly plot (called 'Exploratory Graph') based on the x, y, z and color values selected earlier.")
+          ) 
+         )
+      )
     )
   )
-))
+)
 
 
