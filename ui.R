@@ -14,7 +14,7 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
     selectInput("visData","Select Existing Data: ", 
-                c("MT Cars" = "mtcars","EU Stock Markets"="EuStockMarkets")),
+                c("MT Cars" = "mtcars")),
     selectInput("colA","Select data Column x: ",c()),
     selectInput("colB","Select data Column y: ",c()),
     selectInput("colC","Select data Column z: ",c()),
@@ -35,7 +35,7 @@ shinyUI(fluidPage(
              p("The purpose of this application is to allow one to perform some very basic analysis of the data sets provided."),
             h3("Use"),
             p("To use the app do the following"),
-            tags$li("Select one of the existing data set"),
+            tags$li("Select one of the existing data set.  This will set off the reactive method that wll calculate the linear model and fill the column fields."),
            tags$li("Select the x, y and z axis as well as an additional column 'color.' The data points color will be based on the value of this column."),
             tags$li("Click on 'Plot the Data' and this will create a plotly plot (called 'Exploratory Graph') based on the x, y, z and color values selected earlier.")
           ) 
