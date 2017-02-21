@@ -59,24 +59,63 @@ How the List of data sets is obtained
   }
   
 ```
-
-Executing the DataList method
+The Server Calculation
 ========================================================
-As seen the first dataset is returned:
-
-```{r, echo=TRUE, warning = FALSE}
-head(getDataSets()[[1]])
+```{r echo=TRUE, eval=FALSE}
+   ##Reactive method takes selected dataset and calculates the lm 
+  ## which is then displayed.
+   plotdata<- reactive({
+     shinyjs::hideElement("pPlot")
+     datasel <- input$visData
+     data2<-dataLst[[datasel]]
+    if(class(data2) == "data.frame") {
+      newdata<-data2
+     } else {
+     newdata<-as.data.frame(data2)
+    }
+    choise<-names(newdata)
+    updateSelectInput(session, "colA",
+                      choices = choise)
+    updateSelectInput(session, "colB",
+                      choices = choise)
+    updateSelectInput(session, "colC",
+                      choices = choise)
+    updateSelectInput(session, "colD",
+                      choices = choise)
+    ##Avoiding issue with y = factor variable
+    col<-0
+    for(i in 1:ncol(newdata)) {
+      if(!is.factor(newdata[,i]) && col == 0) {
+        col<-i
+      }
+        
+    }
+    if(col > 0) {
+    x<-summary(lm(newdata[,col] ~., data = newdata))
+    } else {
+      x<- "no non-factor columns .... lm is not valid"
+    }
+     x
+   })
+   ##End of reactive method
 ```
 
-Another way of getting the same thing (the key to getting the column names)
-
-```{r, echo=TRUE, warning = FALSE}
-head(getDataSets()[["mtcars"]],3)
+Executing the Server Calculation
+========================================================
+The main server calculation for a dataset would look as follows if mtcars was selected. Note for the purposes of display well set newdata = mtcars and col = 1:
+```{r, echo=FALSE }
+    newdata<-mtcars
+    col<-1
 ```
 
+```{r, echo=TRUE, warning = FALSE}
+   x<-summary(lm(newdata[,col] ~., data = newdata))
+   x
+```
 
-Benefits of "Exploring the Data Set"
+Benefits and Possible Enhancements "Exploring the Data Set"
 ========================================================
+
 
 The benefits of this application are the following:
 
@@ -89,11 +128,6 @@ Current Limitations
 
 -  Set number of columns for graph
 -  Only one type of graph
-
-
-Possible Enhancements "Exploring the Data Set"
-========================================================
-
 There are enhancements that might be done to improve this
 
 - Allow options of other calculations such as predictive functions (ie. machine learning)
