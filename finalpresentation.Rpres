@@ -6,6 +6,9 @@ autosize: true
 transition: rotate
 transition-speed: slow
 font-family: 'Times New Roman'
+width: 1440
+height: 1200
+
 
 What is "Explore the Data Set"
 ========================================================
@@ -22,9 +25,9 @@ graph that allows you to visualize the relationships
 
 How the List of data sets is obtained
 ========================================================
-The trickiest thing about this app is getting the list of datasets:
+<small>The trickiest thing about this app is getting the list of datasets:</small>
 
-```{r, error=FALSE, warning=FALSE}
+```{r, error=FALSE, warning=FALSE, size="small"}
   #Only data of the type data.frame or >= 4 columns
   getDataSets<-function() {
     ds<-data(package="datasets")
@@ -86,4 +89,14 @@ Current Limitations
 
 -  Set number of columns for graph
 -  Only one type of graph
+
+
+Possible Enhancements "Exploring the Data Set"
+========================================================
+
+There are enhancements that might be done to improve this
+
+- Allow options of other calculations such as predictive functions (ie. machine learning)
+- Expand the number of datasets available
+- Allow a dataset to be loaded from a URL
 
